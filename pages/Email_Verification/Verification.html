@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafePath - Verificación de Correo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #1E2A78;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #2196F3;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            padding: 15px 40px;
+            background-color: #2196F3;
+            color: #fff;
+            font-size: 18px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 30px;
+            width: auto;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #1976D2;
+            transform: scale(1.05);
+        }
+
+        /* Logo y título centrados */
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 40px;
+            margin-top: 30px;
+        }
+
+        .logo {
+            width: 100px;
+            margin-bottom: 15px;
+        }
+
+        .logo-container h1 {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        /* Contenedor principal */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            width: 100%;
+        }
+
+        /* Main form */
+        .login-main {
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .info-text {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 18px;
+            color: #E0E0E0;
+            line-height: 1.6;
+        }
+
+        .underline {
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        /* Formulario de verificación */
+        #verifyForm {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form-text {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 18px;
+            width: 100%;
+        }
+
+        .code-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        .code-inputs input {
+            width: 55px;
+            height: 65px;
+            text-align: center;
+            font-size: 26px;
+            font-weight: bold;
+            border: none;
+            border-bottom: 3px solid #fff;
+            background-color: transparent;
+            color: white;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .code-inputs input:focus {
+            border-bottom-color: #2196F3;
+            transform: scale(1.05);
+        }
+
+        .resend-text {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 16px;
+        }
+
+        .resend-text a {
+            color: #2196F3;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        /* Footer */
+        .login-footer {
+            text-align: center;
+            font-size: 14px;
+            color: #B0B0B0;
+            margin-top: auto;
+            padding: 25px 0;
+            width: 100%;
+        }
+
+        .login-footer a {
+            color: #FFFFFF;
+        }
+        
+        .email-address {
+            font-weight: bold;
+            color: #ffffff;
+            margin-top: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <main class="login-main">
+            <div class="logo-container">
+                <img src="/assets/img/icons/logo.png" alt="Logo SafePath" class="logo">
+                <h1>SafePath</h1>
+            </div>
+            
+            <p class="info-text">Hemos enviado un <span class="underline">código de verificación</span> a:</p>
+            <p class="email-address">usuario@ejemplo.com</p>
+
+            <form id="verifyForm">
+                <p class="form-text">Ingresa el código de verificación:</p>
+                <div class="code-inputs">
+                    <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" autocomplete="one-time-code" required>
+                    <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                    <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                    <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                    <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                    <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                </div>
+                <button type="submit">Verificar</button>
+            </form>
+
+            <p class="resend-text">¿No recibiste el código? <a href="#">Reenviar código</a></p>
+        </main>
+    </div>
+
+    <footer class="login-footer">
+        <a href="#">Aviso de Privacidad</a> | <a href="#">Términos y condiciones</a><br>
+        © 2025 SafePath. Todos los derechos reservados
+    </footer>
+
+    <script>
+        const form = document.getElementById('verifyForm');
+        const inputs = document.querySelectorAll('.code-inputs input');
+        
+        // Manejar el movimiento entre inputs
+        inputs.forEach((input, index) => {
+            // Mover al siguiente input al escribir
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length === 1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+                
+                // Validar automáticamente si todos los campos están llenos
+                if (Array.from(inputs).every(input => input.value !== '')) {
+                    form.dispatchEvent(new Event('submit', {cancelable: true}));
+                }
+            });
+            
+            // Manejar la tecla de retroceso
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+            
+            // Pegar código completo
+            input.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const pasteData = e.clipboardData.getData('text').slice(0, 6);
+                
+                if (/^\d+$/.test(pasteData)) {
+                    pasteData.split('').forEach((char, i) => {
+                        if (inputs[i]) {
+                            inputs[i].value = char;
+                        }
+                    });
+                    
+                    if (pasteData.length === 6) {
+                        inputs[5].focus();
+                    }
+                }
+            });
+        });
+        
+        // Manejar el envío del formulario
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Combinar todos los dígitos
+            let code = '';
+            inputs.forEach(input => {
+                code += input.value;
+            });
+            
+            if(code.length !== 6 || isNaN(code)) {
+                alert("Por favor ingresa un código válido de 6 dígitos");
+                return;
+            }
+
+            alert("Código verificado correctamente. Aquí podrías redirigir al usuario.");
+            form.reset();
+            inputs[0].focus();
+        });
+        
+        // Enfocar el primer input al cargar
+        window.addEventListener('load', () => {
+            inputs[0].focus();
+        });
+    </script>
+</body>
+</html>
