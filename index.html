@@ -3,22 +3,347 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mapa Seguro</title>
-  <link rel="stylesheet" href="components/navbar.css">
+  <title>SafePath - Home</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #3a2db3;
+      --primary-dark: #2a1d8a;
+      --primary-light: #6b5ce7;
+      --secondary: #2196F3;
+      --accent: #9C27B0;
+      --text: #333;
+      --text-light: #555;
+      --background: #f5f7fa;
+      --white: #ffffff;
+      --card-shadow: 0 10px 20px rgba(0,0,0,0.08);
+      --hover-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* ===== HEADER REDISEÑADO ===== */
+    header {
+      width: 100%;
+      background: var(--white);
+      padding: 15px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      font-size: 28px;
+      color: var(--primary);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+    }
+
+    nav {
+      display: flex;
+      gap: 12px;
+    }
+
+    nav a {
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: 15px;
+    }
+
+    nav a:nth-child(1) {
+      background: transparent;
+      color: var(--secondary);
+      border: 2px solid var(--secondary);
+    }
+
+    nav a:nth-child(1):hover {
+      background: var(--secondary);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    nav a:nth-child(2) {
+      background: var(--primary);
+      color: var(--white);
+      border: 2px solid var(--primary);
+    }
+
+    nav a:nth-child(2):hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    /* ===== CONTENIDO PRINCIPAL ===== */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      width: 100%;
+    }
+
+    /* ===== HERO MEJORADO ===== */
+    .hero {
+      text-align: center;
+      margin: 30px 0 50px;
+      max-width: 700px;
+      padding: 0 20px;
+    }
+
+    .hero h2 {
+      font-size: 38px;
+      margin-bottom: 18px;
+      color: var(--text);
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .hero h2 span {
+      color: var(--primary);
+      position: relative;
+    }
+
+    .hero h2 span::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--primary-light);
+      border-radius: 2px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* ===== CARDS MEJORADAS ===== */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      width: 90%;
+      max-width: 900px;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 18px;
+      padding: 35px 30px;
+      text-align: center;
+      box-shadow: var(--card-shadow);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--hover-shadow);
+    }
+
+    .card i {
+      font-size: 50px;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .card h3 {
+      font-size: 22px;
+      margin-bottom: 15px;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .card p {
+      font-size: 16px;
+      color: var(--text-light);
+      margin-bottom: 22px;
+      line-height: 1.5;
+    }
+
+    .card a {
+      display: inline-block;
+      padding: 12px 28px;
+      border-radius: 10px;
+      background: var(--primary);
+      color: var(--white);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .card a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: all 0.5s ease;
+      z-index: -1;
+    }
+
+    .card a:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    .card a:hover::before {
+      left: 100%;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--primary-dark);
+      color: var(--white);
+      text-align: center;
+      padding: 20px;
+      margin-top: auto;
+      font-size: 14px;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px 20px;
+      }
+      
+      .hero h2 {
+        font-size: 30px;
+      }
+      
+      .hero p {
+        font-size: 16px;
+      }
+      
+      .cards {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+      }
+      
+      nav {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      nav {
+        flex-direction: column;
+        width: 100%;
+      }
+      
+      nav a {
+        text-align: center;
+        width: 100%;
+      }
+      
+      .hero h2 {
+        font-size: 26px;
+      }
+    }
+  </style>
 </head>
 <body>
 
+
   <header>
-    <nav class="navbar">
-        <div class="logo">Mapa Seguro</div>
-            <ul class="nav-links">
-                <li><a href="#">Inicio</a></li>
-                <li><a href="#">Mapa</a></li>
-                <li><a href="#">Reportar</a></li>
-                <li><a href="#">Acerca de</a></li>
-            </ul>
+    <div class="logo">
+      <i class="fas fa-shield-alt logo-icon"></i>
+      <h1>SafePath</h1>
+    </div>
+    <nav>
+      <a href="/pages/login/login.html">Iniciar Sesión</a>
+      <a href="/pages/Account_Creation/Account_Creation.html">Crear Cuenta</a>
     </nav>
   </header>
+
+
+  <main>
+ 
+    <section class="hero">
+      <h2>Bienvenido a <span>SafePath</span></h2>
+      <p>Tu plataforma segura para registrar incidentes y planear trayectorias confiables. Selecciona una de las opciones para continuar.</p>
+    </section>
+
+    <section class="cards">
+      <div class="card">
+        <i class="fa-solid fa-clipboard-list"></i>
+        <h3>Generar Reporte</h3>
+        <p>Informa un incidente de manera rápida y sencilla para ayudar a mantener segura tu comunidad.</p>
+        <a href="reporte.html">Reportar Ahora</a>
+      </div>
+
+      <div class="card">
+        <i class="fa-solid fa-route"></i>
+        <h3>Trayectoria Segura</h3>
+        <p>Consulta y planifica rutas seguras en tu zona basadas en reportes recientes de la comunidad.</p>
+        <a href="trayectoria.html">Ver Trayectoria</a>
+      </div>
+    </section>
+  </main>
+
+
 
 </body>
 </html>

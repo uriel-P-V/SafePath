@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generar Reporte</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="/pages/report/Reporte.css">
+</head>
+<body>
+
+  <div class="container">
+    <h2>Generar Reporte</h2>
+
+    <form id="reportForm">
+      <div class="input-row">
+        <div class="form-group input-icon" style="flex:1;">
+          <label class="required">Ubicación del siniestro</label>
+          <input type="text" placeholder="Ingresa una dirección" required>
+          <i class="fa-solid fa-pen"></i>
+        </div>
+        <div class="form-group" style="flex:1;">
+          <label class="required">Fecha y Hora</label>
+          <input type="datetime-local" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="required">Tipo de Incidente</label>
+        <select required>
+          <option value="">Selecciona un incidente</option>
+          <option>Accidente</option>
+          <option>Robo</option>
+          <option>Incendio</option>
+          <option>Inundación</option>
+          <option>Otro</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="required">Nivel de riesgo percibido</label>
+        <select required>
+          <option value="">Selecciona un nivel de riesgo</option>
+          <option>Bajo</option>
+          <option>Medio</option>
+          <option>Alto</option>
+          <option>Crítico</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Descripción</label>
+        <textarea placeholder="Ingresa una descripción"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Evidencia</label>
+        <div class="upload-box" id="uploadBox">
+          <i class="fa-solid fa-upload"></i>
+          Haz click para adjuntar imagen (PNG, JPG, JPEG)
+          <input type="file" id="fileInput" accept=".png,.jpg,.jpeg" style="display: none;">
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit">Enviar Reporte</button>
+    </form>
+  </div>
+
+  <script>
+    // Funcionalidad para la carga de archivos
+    document.getElementById('uploadBox').addEventListener('click', function() {
+      document.getElementById('fileInput').click();
+    });
+    
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+      if (this.files.length > 0) {
+        document.getElementById('uploadBox').innerHTML = 
+          `<i class="fa-solid fa-check"></i> Archivo seleccionado: ${this.files[0].name}`;
+      }
+    });
+    
+    // Validación del formulario
+    document.getElementById('reportForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Reporte enviado con éxito');
+      this.reset();
+      document.getElementById('uploadBox').innerHTML = 
+        `<i class="fa-solid fa-upload"></i> Haz click para adjuntar imagen (PNG, JPG, JPEG)`;
+    });
+  </script>
+
+</body>
+</html>
