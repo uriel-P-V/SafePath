@@ -9,6 +9,16 @@
   padding: 14px 16px;
   text-decoration: none;
   font-size: 18px;
+  background-image: url("./../img/escudo.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.navbar .logo img {
+  height: 40px;
+  width: auto;
+  vertical-align: middle;
+  margin-right: 10px;
 }
 
 .navbar .nav-links {
