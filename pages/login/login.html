@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafePath - Login</title>
+    <link rel="stylesheet" href="/pages/login/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="login-header">
+        <img src="/assets/img/icons/logo.png" alt="Logo SafePath" class="logo">
+        <h1>SafePath</h1>
+        <p>Muévete con confianza</p>
+    </header>
+
+    <main class="login-main">
+        <form>
+            <input type="email" placeholder="Correo institucional" required>
+            <div class="password-container">
+                <input type="password" id="password" placeholder="Contraseña" required>
+                <i class="fa-solid fa-eye" id="togglePassword"></i>
+            </div>
+            <div class="checkbox-container">
+                <input type="checkbox" id="remember">
+                <label for="remember">Mantener sesión iniciada</label>
+            </div>
+
+            <button type="submit">Ingresar</button>
+
+            <p class="register-text">¿No tienes cuenta? <a href="/pages/Account_Creation/Account_Creation.html">Crea una cuenta</a></p>
+        </form>
+    </main>
+
+    <footer class="login-footer">
+        <a href="#">Aviso de Privacidad</a> | <a href="#">Términos y condiciones</a><br>
+        © 2025 SafePath. Todos los derechos reservados
+    </footer>
+</body>
+</html>
+
+<script>
+    const togglePassword = document.getElementById('togglePassword');
+    const password = document.getElementById('password');
+
+    togglePassword.addEventListener('click', () => {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        togglePassword.classList.toggle('fa-eye-slash');
+    });
+</script>
