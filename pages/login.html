@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar sesión | SafePath</title>
+  <link href="https://fonts.googleapis.com/css?family=Manrope:800,700,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=SF+Pro:500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Inter:400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/login.css">
+</head>
+<body>
+  <div class="login-bg">
+    <span class="login-logo">SafePath</span>
+    <div class="login-bg-shape"></div>
+    <div class="login-avatar">
+      <div class="avatar-circle"></div>
+      <div class="avatar-inner-circle"></div>
+    </div>
+    <span class="login-subtitle">Muévete con confianza</span>
+    
+    <form class="login-form" autocomplete="off">
+      <label for="email" class="login-label">Correo institucional</label>
+      <input type="email" id="email" name="email" required class="login-input">
+      <label for="password" class="login-label">Contraseña</label>
+      <input type="password" id="password" name="password" required class="login-input">
+      <div class="login-options">
+        <input type="checkbox" id="remember" name="remember">
+        <label for="remember" class="login-remember">Mantener sesión iniciada</label>
+        <a href="#" class="login-forgot">¿Olvidaste tu contraseña?</a>
+      </div>
+      <button type="submit" class="login-btn">
+        <span class="login-btn-text">Ingresar</span>
+      </button>
+    </form>
+    <span class="login-register">¿No tienes cuenta? <a href="#">Crea una cuenta</a></span>
+    <span class="login-terms">Revisa nuestros <a href="#">Términos y condiciones</a></span>
+    <span class="login-copyright">© 2025 SafePath. Todos los derechos reservados</span>
+  </div>
+  <script src="../../js/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafePath - Crear Cuenta</title>
+    <link rel="stylesheet" href="/pages/login/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+    <header class="login-header">
+        <img src="/assets/img/icons/logo.png" alt="Logo SafePath" class="logo">
+        <h1>SafePath</h1>
+        <p>Muévete con confianza</p>
+    </header>
+
+    <main class="login-main">
+        <form id="registerForm">
+            <input type="text" id="fullname" placeholder="Nombre completo" required>
+            <input type="email" id="email" placeholder="Correo institucional" required>
+
+            <div class="password-container">
+                <input type="password" id="password" placeholder="Contraseña" required>
+                <i class="fa-solid fa-eye" id="togglePassword"></i>
+            </div>
+
+            <div class="password-container">
+                <input type="password" id="confirmPassword" placeholder="Confirmar Contraseña" required>
+                <i class="fa-solid fa-eye" id="toggleConfirmPassword"></i>
+            </div>
+
+            <input type="tel" id="phone" placeholder="Número de teléfono" required>
+
+            <div class="checkbox-container">
+                <input type="checkbox" id="terms" required>
+                <label for="terms">Acepto términos y condiciones</label>
+            </div>
+
+            <!-- Google reCAPTCHA -->
+            <div class="g-recaptcha" data-sitekey="TU_SITE_KEY_AQUI"></div>
+
+            <a href="/pages/login/login.html"><button type="submit">Crear Cuenta</button></a>
+        </form>
+    </main>
+
+    <footer class="login-footer">
+        <a href="#">Aviso de Privacidad</a> | <a href="#">Términos y condiciones</a><br>
+        © 2025 SafePath. Todos los derechos reservados
+    </footer>
+
+    <script>
+        // Mostrar/Ocultar contraseña
+        const togglePassword = document.getElementById('togglePassword');
+        const password = document.getElementById('password');
+        togglePassword.addEventListener('click', () => {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            togglePassword.classList.toggle('fa-eye-slash');
+        });
+
+        const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+        const confirmPassword = document.getElementById('confirmPassword');
+        toggleConfirmPassword.addEventListener('click', () => {
+            const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmPassword.setAttribute('type', type);
+            toggleConfirmPassword.classList.toggle('fa-eye-slash');
+        });
+
+        // Validar formulario
+        const form = document.getElementById('registerForm');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            if(password.value !== confirmPassword.value) {
+                alert("Las contraseñas no coinciden");
+                return;
+            }
+
+            // Validación de reCAPTCHA
+            if(grecaptcha.getResponse() === "") {
+                alert("Por favor verifica que no eres un robot");
+                return;
+            }
+
+            alert("Formulario válido. Aquí podrías enviar los datos al servidor.");
+            form.reset();
+            grecaptcha.reset();
+        });
+    </script>
+</body>
+</html>
+
