@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Exitoso - SafePath</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: white;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .checkmark {
+            font-size: 4em;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        .user-info {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .btn {
+            background: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background: #45a049;
+        }
+        .btn-secondary {
+            background: #008CBA;
+        }
+        .btn-secondary:hover {
+            background: #007BB5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="checkmark">✅</div>
+        <h1>¡Login Exitoso!</h1>
+        <p>Bienvenido a SafePath</p>
+        
+        <div class="user-info">
+            <h3>Información de la sesión:</h3>
+            <?php
+            session_start();
+            if (isset($_SESSION['user_name'])) {
+                echo "<p><strong>Nombre:</strong> " . htmlspecialchars($_SESSION['user_name']) . "</p>";
+                echo "<p><strong>Email:</strong> " . htmlspecialchars($_SESSION['user_email']) . "</p>";
+                echo "<p><strong>ID:</strong> " . htmlspecialchars($_SESSION['user_id']) . "</p>";
+            } else {
+                echo "<p>No hay información de sesión disponible</p>";
+            }
+            ?>
+        </div>
+        
+        <div>
+            <a href="../../index.html" class="btn">Ir al Inicio</a>
+            <a href="../login/login.html" class="btn btn-secondary">Volver al Login</a>
+            <a href="../../backend/logout.php" class="btn" style="background: #f44336;">Cerrar Sesión</a>
+        </div>
+    </div>
+</body>
+</html>

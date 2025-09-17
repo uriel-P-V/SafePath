@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SafePath - Crear Cuenta</title>
-    <link rel="stylesheet" href="/pages/login/login.css">
+    <link rel="stylesheet" href="../../pages/Account_Creation/Account_Creation.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google reCAPTCHA -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
@@ -17,21 +17,21 @@
     </header>
 
     <main class="login-main">
-        <form id="registerForm">
-            <input type="text" id="fullname" placeholder="Nombre completo" required>
-            <input type="email" id="email" placeholder="Correo institucional" required>
+        <form id="registerForm" action="../../backend/register.php" method="POST">
+            <input type="text" id="fullname" name="fullname" placeholder="Nombre completo" required>
+            <input type="email" id="email" name="email" placeholder="Correo institucional" required>
 
             <div class="password-container">
-                <input type="password" id="password" placeholder="Contraseña" required>
+                <input type="password" id="password" name="password" placeholder="Contraseña" required>
                 <i class="fa-solid fa-eye" id="togglePassword"></i>
             </div>
 
             <div class="password-container">
-                <input type="password" id="confirmPassword" placeholder="Confirmar Contraseña" required>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirmar Contraseña" required>
                 <i class="fa-solid fa-eye" id="toggleConfirmPassword"></i>
             </div>
 
-            <input type="tel" id="phone" placeholder="Número de teléfono" required>
+            <input type="tel" id="phone" name="phone" placeholder="Número de teléfono" required>
 
             <div class="checkbox-container">
                 <input type="checkbox" id="terms" required>
@@ -39,9 +39,9 @@
             </div>
 
             <!-- Google reCAPTCHA -->
-            <div class="g-recaptcha" data-sitekey="TU_SITE_KEY_AQUI"></div>
+            <div class="g-recaptcha" data-sitekey="6Lcg_8srAAAAAOR_FHv1-UJPOxCJYDf0Fx3Xji3F"></div>
 
-            <a href="/pages/login/login.html"><button type="submit">Crear Cuenta</button></a>
+            <button type="submit">Crear Cuenta</button>
         </form>
     </main>
 
@@ -53,7 +53,7 @@
     <script>
         // Mostrar/Ocultar contraseña
         const togglePassword = document.getElementById('togglePassword');
-        const password = document.getElementById('password');
+        const password = document.querySelector('input[name="password"]');
         togglePassword.addEventListener('click', () => {
             const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
             password.setAttribute('type', type);
@@ -61,7 +61,7 @@
         });
 
         const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
-        const confirmPassword = document.getElementById('confirmPassword');
+        const confirmPassword = document.querySelector('input[name="confirmPassword"]');
         toggleConfirmPassword.addEventListener('click', () => {
             const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
             confirmPassword.setAttribute('type', type);
@@ -71,24 +71,24 @@
         // Validar formulario
         const form = document.getElementById('registerForm');
         form.addEventListener('submit', (e) => {
-            e.preventDefault();
-
+            // Validar contraseñas
             if(password.value !== confirmPassword.value) {
+                e.preventDefault();
                 alert("Las contraseñas no coinciden");
-                return;
+                return false;
             }
 
             // Validación de reCAPTCHA
             if(grecaptcha.getResponse() === "") {
+                e.preventDefault();
                 alert("Por favor verifica que no eres un robot");
-                return;
+                return false;
             }
 
-            alert("Formulario válido. Aquí podrías enviar los datos al servidor.");
-            form.reset();
-            grecaptcha.reset();
+            // Si todo está bien, permitir que el formulario se envíe
+            // NO usar preventDefault() aquí para que se envíe al servidor
+            return true;
         });
     </script>
 </body>
 </html>
-
