@@ -113,6 +113,23 @@ button:hover {
     margin-top: 15px;
 }
 
+.login-text {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #E0E0E0;
+}
+
+.login-text a {
+    color: #2196F3;
+    font-weight: bold;
+}
+
+.login-text a:hover {
+    text-decoration: underline;
+}
+
+
 /* Footer */
 .login-footer {
     text-align: center;

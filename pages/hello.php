@@ -83,8 +83,8 @@
         </div>
         
         <div>
-            <a href="../../index.html" class="btn">Ir al Inicio</a>
-            <a href="../login/login.html" class="btn btn-secondary">Volver al Login</a>
+            <a href="../index.html" class="btn">Ir al Inicio</a>
+            <a href="../pages/login/login.html" class="btn btn-secondary">Volver al Login</a>
             <a href="../../backend/logout.php" class="btn" style="background: #f44336;">Cerrar Sesión</a>
         </div>
     </div>
