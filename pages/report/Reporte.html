@@ -5,89 +5,132 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Generar Reporte</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="/pages/report/Reporte.css">
+  <link rel="stylesheet" href="Reporte.css">
 </head>
 <body>
 
-  <div class="container">
-    <h2>Generar Reporte</h2>
+<div class="container">
+  <h2>Generar Reporte</h2>
 
-    <form id="reportForm">
-      <div class="input-row">
-        <div class="form-group input-icon" style="flex:1;">
-          <label class="required">Ubicación del siniestro</label>
-          <input type="text" placeholder="Ingresa una dirección" required>
-          <i class="fa-solid fa-pen"></i>
-        </div>
-        <div class="form-group" style="flex:1;">
-          <label class="required">Fecha y Hora</label>
-          <input type="datetime-local" required>
-        </div>
+  <form id="reportForm" method="POST" action="../../backend/guardar_reporte.php" enctype="multipart/form-data">
+
+    <div class="input-row">
+      <div class="form-group input-icon" style="flex:1;">
+        <label class="required">Ubicación del siniestro</label>
+        <input type="text" name="ubicacion" placeholder="Ingresa una dirección" required>
+        <i class="fa-solid fa-pen"></i>
       </div>
-
-      <div class="form-group">
-        <label class="required">Tipo de Incidente</label>
-        <select required>
-          <option value="">Selecciona un incidente</option>
-          <option>Accidente</option>
-          <option>Robo</option>
-          <option>Incendio</option>
-          <option>Inundación</option>
-          <option>Otro</option>
-        </select>
+      <div class="form-group" style="flex:1;">
+        <label class="required">Fecha y Hora</label>
+        <input type="datetime-local" name="fecha_hora">
+        <small>(Opcional, si dejas vacío se usará la hora actual)</small>
       </div>
+    </div>
 
-      <div class="form-group">
-        <label class="required">Nivel de riesgo percibido</label>
-        <select required>
-          <option value="">Selecciona un nivel de riesgo</option>
-          <option>Bajo</option>
-          <option>Medio</option>
-          <option>Alto</option>
-          <option>Crítico</option>
-        </select>
+    <div class="form-group">
+      <label class="required">Tipo de Incidente</label>
+      <select name="tipo" required>
+        <option value="">Selecciona un incidente</option>
+        <option value="robo">Robo</option>
+        <option value="asalto">Asalto</option>
+        <option value="acoso">Acoso</option>
+        <option value="vandalismo">Vandalismo</option>
+        <option value="otro">Otro</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="required">Nivel de riesgo percibido</label>
+      <select name="riesgo" required>
+        <option value="">Selecciona un nivel de riesgo</option>
+        <option>Bajo</option>
+        <option>Medio</option>
+        <option>Alto</option>
+        <option>Crítico</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Descripción</label>
+      <textarea name="descripcion" placeholder="Ingresa una descripción"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Evidencia</label>
+      <div class="upload-box" id="uploadBox">
+        <i class="fa-solid fa-upload"></i>
+        Haz click para adjuntar imagen (PNG, JPG, JPEG)
+        <input type="file" name="evidencia" id="fileInput" accept=".png,.jpg,.jpeg" style="display: none;">
       </div>
+    </div>
 
-      <div class="form-group">
-        <label>Descripción</label>
-        <textarea placeholder="Ingresa una descripción"></textarea>
-      </div>
+    <!-- Campos ocultos para latitud y longitud -->
+    <input type="hidden" name="latitud" id="lat">
+    <input type="hidden" name="longitud" id="lng">
 
-      <div class="form-group">
-        <label>Evidencia</label>
-        <div class="upload-box" id="uploadBox">
-          <i class="fa-solid fa-upload"></i>
-          Haz click para adjuntar imagen (PNG, JPG, JPEG)
-          <input type="file" id="fileInput" accept=".png,.jpg,.jpeg" style="display: none;">
-        </div>
-      </div>
+    <button type="submit" class="btn-submit">Enviar Reporte</button>
+  </form>
 
-      <button type="submit" class="btn-submit">Enviar Reporte</button>
-    </form>
+  <div id="confirmation" style="display:none; text-align:center; padding:50px;">
+    <i class="fa-solid fa-circle-check" style="font-size:80px; color:green;"></i>
+    <h2>Tu reporte se envió con éxito!</h2>
   </div>
 
-  <script>
-    // Funcionalidad para la carga de archivos
-    document.getElementById('uploadBox').addEventListener('click', function() {
-      document.getElementById('fileInput').click();
-    });
-    
-    document.getElementById('fileInput').addEventListener('change', function(e) {
-      if (this.files.length > 0) {
-        document.getElementById('uploadBox').innerHTML = 
-          `<i class="fa-solid fa-check"></i> Archivo seleccionado: ${this.files[0].name}`;
-      }
-    });
-    
-    // Validación del formulario
-    document.getElementById('reportForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      alert('Reporte enviado con éxito');
-      this.reset();
+</div>
+
+<script>
+  // Funcionalidad para la carga de archivos
+  document.getElementById('uploadBox').addEventListener('click', function() {
+    document.getElementById('fileInput').click();
+  });
+  
+  document.getElementById('fileInput').addEventListener('change', function(e) {
+    if (this.files.length > 0) {
       document.getElementById('uploadBox').innerHTML = 
-        `<i class="fa-solid fa-upload"></i> Haz click para adjuntar imagen (PNG, JPG, JPEG)`;
+        `<i class="fa-solid fa-check"></i> Archivo seleccionado: ${this.files[0].name}`;
+    }
+  });
+
+  // Obtener latitud y longitud automáticamente
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      document.getElementById('lat').value = position.coords.latitude;
+      document.getElementById('lng').value = position.coords.longitude;
     });
-  </script>
+  }
+
+  const form = document.getElementById("reportForm");
+  const confirmation = document.getElementById("confirmation");
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const formData = new FormData(form);
+
+    fetch("../../backend/guardar_reporte.php", {
+      method: "POST",
+      body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+      if(data.trim() === "success"){
+        // Ocultar formulario y mostrar confirmación
+        form.style.display = "none";
+        confirmation.style.display = "block";
+
+        // Redirigir después de 3 segundos (aún no hay mapa, redirige a index.html)
+        setTimeout(()=>{
+          window.location.href = "../../index.html";
+        }, 3000);
+      } else {
+        alert("Error al enviar el reporte: " + data);
+      }
+    })
+    .catch(err => {
+      alert("Error al enviar el reporte: " + err);
+    });
+  });
+</script>
 
 </body>
 </html>
