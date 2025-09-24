@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SafePath - Home</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/global.css">
+  <style>
+    /* ===== Dropdown usuario ===== */
+    .user-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .user-btn {
+      background: transparent;
+      border: 2px solid var(--secondary);
+      color: var(--secondary);
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .user-btn:hover {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      margin-top: 8px;
+      background: white;
+      min-width: 180px;
+      box-shadow: var(--card-shadow);
+      border-radius: 8px;
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .dropdown-content a {
+      display: block;
+      padding: 12px 16px;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+
+    .dropdown-content a:hover {
+      background: #f5f5f5;
+    }
+
+    .user-dropdown.show .dropdown-content {
+      display: block;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER DINÁMICO -->
+  <header>
+    <div class="logo">
+      <i class="fas fa-shield-alt logo-icon"></i>
+      <h1>SafePath</h1>
+    </div>
+    <nav id="nav-links">
+      <!-- Aquí se inserta dinámicamente el menú -->
+    </nav>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <h2>Bienvenido a <span>SafePath</span></h2>
+      <p>Tu plataforma segura para registrar incidentes y planear trayectorias confiables. Selecciona una de las opciones para continuar.</p>
+    </section>
+
+    <!-- CARDS -->
+    <section class="cards">
+      <div class="card">
+        <i class="fa-solid fa-clipboard-list"></i>
+        <h3>Generar Reporte</h3>
+        <p>Informa un incidente de manera rápida y sencilla para ayudar a mantener segura tu comunidad.</p>
+        <a href="reporte.html">Reportar Ahora</a>
+      </div>
+
+      <div class="card">
+        <i class="fa-solid fa-route"></i>
+        <h3>Trayectoria Segura</h3>
+        <p>Consulta y planifica rutas seguras en tu zona basadas en reportes recientes de la comunidad.</p>
+        <a href="trayectoria.html">Ver Trayectoria</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2025 SafePath - Todos los derechos reservados</p>
+  </footer>
+
+  <!-- SCRIPT PARA CARGAR NAV DINÁMICO -->
+  <script>
+    fetch("backend/session_status.php")
+      .then(res => res.json())
+      .then(data => {
+        const nav = document.getElementById("nav-links");
+        if (data.logged_in) {
+          nav.innerHTML = `
+            <div class="user-dropdown">
+              <button class="user-btn">👤 ${data.user_name}</button>
+              <div class="dropdown-content">
+                <a href="backend/logout.php" style="color:#f44336;font-weight:600;">Cerrar Sesión</a>
+              </div>
+            </div>
+          `;
+
+          // Lógica para mostrar/ocultar menú
+          const dropdown = nav.querySelector(".user-dropdown");
+          const btn = dropdown.querySelector(".user-btn");
+
+          btn.addEventListener("click", () => {
+            dropdown.classList.toggle("show");
+          });
+
+          // Cerrar el menú si se hace click afuera
+          document.addEventListener("click", (e) => {
+            if (!dropdown.contains(e.target)) {
+              dropdown.classList.remove("show");
+            }
+          });
+        } else {
+          nav.innerHTML = `
+            <a href="pages/login/login.html">Iniciar Sesión</a>
+            <a href="pages/Account_Creation/Account_Creation.html">Crear Cuenta</a>
+          `;
+        }
+      })
+      .catch(err => {
+        console.error("Error consultando sesión:", err);
+      });
+  </script>
+
+</body>
+</html>
+
+

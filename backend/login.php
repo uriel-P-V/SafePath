@@ -1,6 +1,8 @@
 <?php
 session_start();
+include("conexion.php");
 
+<<<<<<< HEAD
 // Incluir conexión
 include("conexion.php");
 
@@ -8,13 +10,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $correo = trim($_POST["email"]);
     $password = trim($_POST["password"]);
     
+=======
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $correo = trim($_POST["email"]);
+    $password = trim($_POST["password"]);
+
+>>>>>>> 414df753f4350d6c1c414866c47ee5febb068b4c
     // Validar campos vacíos
     if (empty($correo) || empty($password)) {
         echo '<script>alert("Por favor completa todos los campos"); window.history.back();</script>';
         exit();
     }
-    
+
     // Buscar usuario
+<<<<<<< HEAD
     $stmt = $conn->prepare("SELECT id_usuario, nombre, correo, contraseña, verificado FROM usuarios WHERE correo = ?");
     if (!$stmt) {
         echo '<script>alert("Error en el servidor"); window.history.back();</script>';
@@ -30,11 +39,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         // Verificar contraseña
         if (password_verify($password, $usuario['contraseña'])) {
+=======
+    $stmt = $conn->prepare("SELECT id_usuario, nombre, correo, contraseña, verificado 
+                            FROM usuarios WHERE correo = ?");
+    $stmt->bind_param("s", $correo);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 1) {
+        $usuario = $result->fetch_assoc();
+
+        // Verificar contraseña
+        if (password_verify($password, $usuario['contraseña'])) {
+            
+            // Verificar si está validado
+            if ($usuario['verificado'] == 0) {
+                echo '<script>alert("Tu cuenta aún no está verificada. Revisa tu correo."); window.history.back();</script>';
+                exit();
+            }
+
+>>>>>>> 414df753f4350d6c1c414866c47ee5febb068b4c
             // Crear sesión
             $_SESSION['user_id'] = $usuario['id_usuario'];
             $_SESSION['user_name'] = $usuario['nombre'];
             $_SESSION['user_email'] = $usuario['correo'];
             $_SESSION['logged_in'] = true;
+<<<<<<< HEAD
             
             // Página de éxito moderna
             ?>
@@ -129,20 +159,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </html>
             <?php
             
+=======
+
+            // Redirigir a home
+            header("Location: ../pages/hello.php");
+            exit();
+
+>>>>>>> 414df753f4350d6c1c414866c47ee5febb068b4c
         } else {
             echo '<script>alert("La contraseña es incorrecta"); window.history.back();</script>';
         }
-        
     } else {
         echo '<script>alert("No existe una cuenta con este correo"); window.history.back();</script>';
     }
-    
+
     $stmt->close();
     $conn->close();
-    
 } else {
+<<<<<<< HEAD
     // Si no es POST, redirigir al login
     header("Location: ../pages/login/login.html");
     exit();
 }
 ?>
+=======
+    echo '<script>alert("Método inválido"); window.history.back();</script>';
+}
+?>
+>>>>>>> 414df753f4350d6c1c414866c47ee5febb068b4c

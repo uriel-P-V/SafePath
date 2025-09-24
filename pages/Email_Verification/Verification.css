@@ -1,3 +1,4 @@
+
 * {
     margin: 0;
     padding: 0;
@@ -31,11 +32,18 @@ button {
     border: none;
     border-radius: 30px;
     cursor: pointer;
+<<<<<<< HEAD
     transition: all 0.3s ease;
     margin-top: 30px;
     width: auto;
     font-weight: bold;
     min-width: 200px;
+=======
+    transition: background 0.3s;
+    margin-top: 30px;
+    width: auto;
+    font-weight: bold;
+>>>>>>> 414df753f4350d6c1c414866c47ee5febb068b4c
 }
 
 button:hover {
@@ -43,10 +51,13 @@ button:hover {
     transform: scale(1.05);
 }
 
+<<<<<<< HEAD
 button:active {
     transform: scale(0.98);
 }
 
+=======
+>>>>>>> 414df753f4350d6c1c414866c47ee5febb068b4c
 /* Logo y título centrados */
 .logo-container {
     display: flex;
@@ -58,16 +69,23 @@ button:active {
 
 .logo {
     width: 100px;
+<<<<<<< HEAD
     height: 100px;
     margin-bottom: 15px;
     object-fit: contain;
+=======
+    margin-bottom: 15px;
+>>>>>>> 414df753f4350d6c1c414866c47ee5febb068b4c
 }
 
 .logo-container h1 {
     text-align: center;
     font-size: 36px;
     font-weight: bold;
+<<<<<<< HEAD
     color: #ffffff;
+=======
+>>>>>>> 414df753f4350d6c1c414866c47ee5febb068b4c
 }
 
 /* Contenedor principal */
@@ -78,8 +96,11 @@ button:active {
     justify-content: center;
     flex: 1;
     width: 100%;
+<<<<<<< HEAD
     max-width: 600px;
     margin: 0 auto;
+=======
+>>>>>>> 414df753f4350d6c1c414866c47ee5febb068b4c
 }
 
 /* Main form */
@@ -89,7 +110,10 @@ button:active {
     display: flex;
     flex-direction: column;
     align-items: center;
+<<<<<<< HEAD
     padding: 20px;
+=======
+>>>>>>> 414df753f4350d6c1c414866c47ee5febb068b4c
 }
 
 .info-text {
@@ -103,7 +127,10 @@ button:active {
 .underline {
     text-decoration: underline;
     font-weight: bold;
+<<<<<<< HEAD
     color: #ffffff;
+=======
+>>>>>>> 414df753f4350d6c1c414866c47ee5febb068b4c
 }
 
 /* Formulario de verificación */
@@ -119,17 +146,26 @@ button:active {
     margin-bottom: 25px;
     font-size: 18px;
     width: 100%;
+<<<<<<< HEAD
     color: #E0E0E0;
+=======
+>>>>>>> 414df753f4350d6c1c414866c47ee5febb068b4c
 }
 
 .code-inputs {
     display: flex;
     justify-content: center;
+<<<<<<< HEAD
     gap: 15px;
     margin-bottom: 15px;
     width: 100%;
     max-width: 400px;
     flex-wrap: nowrap;
+=======
+    gap: 12px;
+    margin-bottom: 15px;
+    width: 100%;
+>>>>>>> 414df753f4350d6c1c414866c47ee5febb068b4c
 }
 
 .code-inputs input {
@@ -143,17 +179,22 @@ button:active {
     background-color: transparent;
     color: white;
     outline: none;
+<<<<<<< HEAD
     transition: all 0.3s ease;
     flex-shrink: 0;
     /* Estas propiedades son importantes para evitar que se vean como campos largos */
     box-sizing: border-box;
     display: inline-block;
     vertical-align: top;
+=======
+    transition: all 0.3s;
+>>>>>>> 414df753f4350d6c1c414866c47ee5febb068b4c
 }
 
 .code-inputs input:focus {
     border-bottom-color: #2196F3;
     transform: scale(1.05);
+<<<<<<< HEAD
     background-color: rgba(33, 150, 243, 0.1);
 }
 
@@ -163,17 +204,23 @@ button:active {
 
 .code-inputs input::placeholder {
     color: rgba(255, 255, 255, 0.5);
+=======
+>>>>>>> 414df753f4350d6c1c414866c47ee5febb068b4c
 }
 
 .resend-text {
     text-align: center;
     margin-top: 25px;
     font-size: 16px;
+<<<<<<< HEAD
     color: #E0E0E0;
+=======
+>>>>>>> 414df753f4350d6c1c414866c47ee5febb068b4c
 }
 
 .resend-text a {
     color: #2196F3;
+<<<<<<< HEAD
     font-weight: bold;
     font-size: 16px;
     transition: color 0.3s ease;
@@ -181,6 +228,31 @@ button:active {
 
 .resend-text a:hover {
     color: #1976D2;
+=======
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Footer */
+.login-footer {
+    text-align: center;
+    font-size: 14px;
+    color: #B0B0B0;
+    margin-top: auto;
+    padding: 25px 0;
+    width: 100%;
+}
+
+.login-footer a {
+    color: #FFFFFF;
+}
+
+.email-address {
+    font-weight: bold;
+    color: #ffffff;
+    margin-top: 5px;
+    font-size: 16px;
+>>>>>>> 414df753f4350d6c1c414866c47ee5febb068b4c
 }
 
 /* Footer */
