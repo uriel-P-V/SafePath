@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-09-2025 a las 23:20:33
+-- Tiempo de generación: 17-09-2025 a las 08:38:50
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -83,6 +83,114 @@ CREATE TABLE `usuarios` (
   `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp(),
   `telefono` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`id_usuario`, `nombre`, `correo`, `contraseña`, `verificado`, `fecha_registro`, `telefono`) VALUES
+(1, 'Pedro Gonzalez', 'rmiramontes864@outlook.com', '$2y$10$iFCWvTXooh1a4ez77hQRbe6VVGYMgVSE9A7B1y6cVCPOMAYLWxUT.', 0, '2025-09-17 01:51:32', '3310067164'),
+(2, 'Raymond Alexander Miramontes', 'raymond.miramontes1017@alumnos.udg.mx', '$2y$10$lYEGcqMlMqAKotoLlvPdReNYQzC.jP9Vh1YdvSzx.cZHa9MMs3KDG', 0, '2025-09-17 01:58:01', '3310067164');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `zonas`
+--
+
+CREATE TABLE `zonas` (
+  `id_zona` int(11) NOT NULL,
+  `nombre` varchar(100) DEFAULT NULL,
+  `nivel_peligro` tinyint(4) NOT NULL CHECK (`nivel_peligro` between 1 and 5),
+  `descripcion` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `puntos_seguros`
+--
+ALTER TABLE `puntos_seguros`
+  ADD PRIMARY KEY (`id_punto`);
+
+--
+-- Indices de la tabla `reportes`
+--
+ALTER TABLE `reportes`
+  ADD PRIMARY KEY (`id_reporte`),
+  ADD KEY `id_usuario` (`id_usuario`);
+
+--
+-- Indices de la tabla `tokens_verificacion`
+--
+ALTER TABLE `tokens_verificacion`
+  ADD PRIMARY KEY (`id_token`),
+  ADD KEY `id_usuario` (`id_usuario`);
+
+--
+-- Indices de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id_usuario`),
+  ADD UNIQUE KEY `correo` (`correo`);
+
+--
+-- Indices de la tabla `zonas`
+--
+ALTER TABLE `zonas`
+  ADD PRIMARY KEY (`id_zona`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `puntos_seguros`
+--
+ALTER TABLE `puntos_seguros`
+  MODIFY `id_punto` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `reportes`
+--
+ALTER TABLE `reportes`
+  MODIFY `id_reporte` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `tokens_verificacion`
+--
+ALTER TABLE `tokens_verificacion`
+  MODIFY `id_token` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `zonas`
+--
+ALTER TABLE `zonas`
+  MODIFY `id_zona` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `reportes`
+--
+ALTER TABLE `reportes`
+  ADD CONSTRAINT `reportes_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `tokens_verificacion`
+--
+ALTER TABLE `tokens_verificacion`
+  ADD CONSTRAINT `tokens_verificacion_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

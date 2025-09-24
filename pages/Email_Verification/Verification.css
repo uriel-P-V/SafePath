@@ -11,8 +11,6 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    justify-content: space-between;
-    align-items: center;
     padding: 20px;
 }
 
@@ -25,123 +23,216 @@ a:hover {
     text-decoration: underline;
 }
 
-input {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    border: 1px solid #B0B0B0;
-    border-radius: 8px;
-    font-size: 16px;
-}
-
 button {
-    width: 100%;
-    padding: 12px;
+    padding: 15px 40px;
     background-color: #2196F3;
     color: #fff;
-    font-size: 16px;
+    font-size: 18px;
     border: none;
-    border-radius: 25px;
+    border-radius: 30px;
     cursor: pointer;
-    transition: background 0.3s;
-    margin-top: 10px;
+    transition: all 0.3s ease;
+    margin-top: 30px;
+    width: auto;
+    font-weight: bold;
+    min-width: 200px;
 }
 
 button:hover {
     background-color: #1976D2;
+    transform: scale(1.05);
 }
 
+button:active {
+    transform: scale(0.98);
+}
+
+/* Logo y título centrados */
+.logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+    margin-top: 30px;
+}
 
 .logo {
-    width: 70px;
-    display: flex;;
-    justify-content: center;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 15px;
+    object-fit: contain;
+}
+
+.logo-container h1 {
+    text-align: center;
+    font-size: 36px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+/* Contenedor principal */
+.container {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-} 
+    justify-content: center;
+    flex: 1;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
 
 /* Main form */
 .login-main {
     width: 100%;
-    max-width: 400px;
-}
-
-.checkbox-container {
+    max-width: 480px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 20px;
+    padding: 20px;
 }
 
-.checkbox-container input {
-    width: auto;
-    margin-right: 10px;
-}
-
-.password-container {
-    position: relative;
-    width: 100%;
-}
-
-.password-container input {
-    width: 100%;
-    padding: 12px 40px 12px 12px; /* espacio para el ícono a la derecha */
-    border: 1px solid #B0B0B0;
-    border-radius: 8px;
-    font-size: 16px;
-}
-
-.password-container i {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: #B0B0B0;
-}
-
-.password-container i:hover {
-    color: #5b5b5b;
-}
-
-
-.register-text {
-    text-align: center;
-    margin-top: 15px;
-}
-
-/* Footer */
-.login-footer {
-    text-align: center;
-    font-size: 12px;
-    color: #B0B0B0;
-    margin-top: 20px;
-}
-
-.login-footer a {
-    color: #FFFFFF;
-}
-
-/* Verificacion */
 .info-text {
     text-align: center;
-    margin-bottom: 20px;
-    font-size: 14px;
+    margin-bottom: 25px;
+    font-size: 18px;
     color: #E0E0E0;
-    line-height: 1.5;
+    line-height: 1.6;
+}
+
+.underline {
+    text-decoration: underline;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+/* Formulario de verificación */
+#verifyForm {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-text {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 18px;
+    width: 100%;
+    color: #E0E0E0;
+}
+
+.code-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    width: 100%;
+    max-width: 400px;
+    flex-wrap: nowrap;
+}
+
+.code-inputs input {
+    width: 55px;
+    height: 65px;
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+    border: none;
+    border-bottom: 3px solid #fff;
+    background-color: transparent;
+    color: white;
+    outline: none;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    /* Estas propiedades son importantes para evitar que se vean como campos largos */
+    box-sizing: border-box;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.code-inputs input:focus {
+    border-bottom-color: #2196F3;
+    transform: scale(1.05);
+    background-color: rgba(33, 150, 243, 0.1);
+}
+
+.code-inputs input:valid {
+    border-bottom-color: #4CAF50;
+}
+
+.code-inputs input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .resend-text {
     text-align: center;
-    margin-top: 15px;
-    font-size: 14px;
+    margin-top: 25px;
+    font-size: 16px;
+    color: #E0E0E0;
 }
 
 .resend-text a {
     color: #2196F3;
     font-weight: bold;
+    font-size: 16px;
+    transition: color 0.3s ease;
 }
 
-input#verificationCode {
+.resend-text a:hover {
+    color: #1976D2;
+}
+
+/* Footer */
+.login-footer {
     text-align: center;
-    font-size: 20px;
-    width: 250px;
+    font-size: 14px;
+    color: #B0B0B0;
+    margin-top: auto;
+    padding: 25px 0;
+    width: 100%;
+}
+
+.login-footer a {
+    color: #FFFFFF;
+    transition: color 0.3s ease;
+}
+
+.login-footer a:hover {
+    color: #2196F3;
+}
+
+.email-address {
+    font-weight: bold;
+    color: #ffffff;
+    margin-top: 5px;
+    margin-bottom: 30px;
+    font-size: 16px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .code-inputs {
+        gap: 10px;
+        max-width: 350px;
+    }
+    
+    .code-inputs input {
+        width: 45px;
+        height: 55px;
+        font-size: 22px;
+    }
+    
+    .logo-container h1 {
+        font-size: 28px;
+    }
+    
+    .container {
+        padding: 10px;
+    }
 }

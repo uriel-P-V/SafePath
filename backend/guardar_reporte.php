@@ -8,8 +8,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $es_anonimo = isset($_POST['anonimo']) && $_POST['anonimo'] == '1';
     
     if ($es_anonimo) {
-        // Usar usuario anónimo (ID 0)
-        $id_usuario = 0;
+        // Usar usuario anónimo (ID -1)
+        $id_usuario = -1;
     } else {
         // Verificar que haya sesión activa para reportes no anónimos
         if (!isset($_SESSION['user_id'])) {
