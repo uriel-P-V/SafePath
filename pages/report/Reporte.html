@@ -73,12 +73,37 @@
 
   <div id="confirmation" style="display:none; text-align:center; padding:50px;">
     <i class="fa-solid fa-circle-check" style="font-size:80px; color:green;"></i>
-    <h2>Tu reporte se envió con éxito!</h2>
+    <h2>¡Tu reporte se envió con éxito!</h2>
+    <p style="margin-top: 20px; color: #666;">Gracias por contribuir a la seguridad de la comunidad</p>
   </div>
 
 </div>
 
 <script>
+  // Verificar si hay sesión activa al cargar la página
+  async function checkSession() {
+    try {
+      const response = await fetch('../../backend/check_session.php');
+      const data = await response.json();
+      
+      if (!data.logged_in) {
+        // Si no hay sesión, redirigir al login
+        alert('Debes iniciar sesión para reportar incidentes');
+        window.location.href = '../login/login.html';
+        return false;
+      }
+      return true;
+    } catch (error) {
+      console.error('Error verificando sesión:', error);
+      alert('Error de conexión. Por favor, intenta nuevamente.');
+      window.location.href = '../login/login.html';
+      return false;
+    }
+  }
+
+  // Verificar sesión al cargar la página
+  document.addEventListener('DOMContentLoaded', checkSession);
+
   // Funcionalidad para la carga de archivos
   document.getElementById('uploadBox').addEventListener('click', function() {
     document.getElementById('fileInput').click();
@@ -96,39 +121,64 @@
     navigator.geolocation.getCurrentPosition(function(position) {
       document.getElementById('lat').value = position.coords.latitude;
       document.getElementById('lng').value = position.coords.longitude;
+    }, function(error) {
+      console.log('Error obteniendo ubicación:', error);
+      // No es crítico, el usuario puede continuar sin ubicación
     });
   }
 
   const form = document.getElementById("reportForm");
   const confirmation = document.getElementById("confirmation");
 
-  form.addEventListener("submit", function(e){
+  form.addEventListener("submit", async function(e){
     e.preventDefault();
+
+    // Verificar sesión antes de enviar
+    const sessionActive = await checkSession();
+    if (!sessionActive) return;
+
+    // Deshabilitar el botón de envío para evitar doble envío
+    const submitBtn = form.querySelector('.btn-submit');
+    const originalText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Enviando...';
 
     const formData = new FormData(form);
 
-    fetch("../../backend/guardar_reporte.php", {
-      method: "POST",
-      body: formData
-    })
-    .then(response => response.text())
-    .then(data => {
+    try {
+      const response = await fetch("../../backend/guardar_reporte.php", {
+        method: "POST",
+        body: formData
+      });
+      
+      const data = await response.text();
+      
       if(data.trim() === "success"){
         // Ocultar formulario y mostrar confirmación
         form.style.display = "none";
         confirmation.style.display = "block";
 
-        // Redirigir después de 3 segundos (aún no hay mapa, redirige a index.html)
-        setTimeout(()=>{
-          window.location.href = "../../index.html";
+        // Redirigir después de 3 segundos al index.php
+        setTimeout(() => {
+          window.location.href = "../../index.php";
         }, 3000);
       } else {
-        alert("Error al enviar el reporte: " + data);
+        // Mostrar error específico
+        if (data.includes("iniciar sesión")) {
+          alert("Tu sesión ha expirado. Redirigiendo al login...");
+          window.location.href = "../login/login.html";
+        } else {
+          alert("Error al enviar el reporte: " + data);
+        }
       }
-    })
-    .catch(err => {
-      alert("Error al enviar el reporte: " + err);
-    });
+    } catch (error) {
+      console.error('Error:', error);
+      alert("Error de conexión al enviar el reporte. Por favor, intenta nuevamente.");
+    } finally {
+      // Rehabilitar el botón
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+    }
   });
 </script>
 

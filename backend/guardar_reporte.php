@@ -1,16 +1,21 @@
 <?php
+session_start();
 include("conexion.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $id_usuario   = 1; // cambiar por sesión del usuario logueado
-    $ubicacion    = $_POST['ubicacion'];
-    $fecha_hora   = !empty($_POST['fecha_hora']) ? $_POST['fecha_hora'] : date("Y-m-d H:i:s"); 
-    $tipo         = $_POST['tipo'];
-    $riesgo       = $_POST['riesgo'];
-    $descripcion  = $_POST['descripcion'];
-    $latitud      = $_POST['latitud'] ?? 0;
-    $longitud     = $_POST['longitud'] ?? 0;
+    if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+        die("Debes iniciar sesión para enviar un reporte.");
+    }
+
+    $id_usuario  = $_SESSION['user_id'];   // <-- Usuario real
+    $ubicacion   = $_POST['ubicacion'];
+    $fecha_hora  = !empty($_POST['fecha_hora']) ? $_POST['fecha_hora'] : date("Y-m-d H:i:s"); 
+    $tipo        = $_POST['tipo'];
+    $riesgo      = $_POST['riesgo'];
+    $descripcion = $_POST['descripcion'];
+    $latitud     = $_POST['latitud'] ?? 0;
+    $longitud    = $_POST['longitud'] ?? 0;
 
     $nivel_peligro = match($riesgo) {
         "Bajo"     => 1,
@@ -36,6 +41,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $targetFile = $targetDir . $fileName;
         if (move_uploaded_file($_FILES["evidencia"]["tmp_name"], $targetFile)) {
             $imagen = $fileName;
+            // Debug:
+            // echo "Archivo subido: $targetFile"; exit;
+        } else {
+            echo "Error al subir el archivo"; exit;
         }
     }
 
@@ -45,6 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("isssddssis", $id_usuario, $tipo, $descripcion, $imagen, $latitud, $longitud, $ubicacion, $fecha_hora, $nivel_peligro, $rango);
+    
 
     if ($stmt->execute()) {
         echo "success";
