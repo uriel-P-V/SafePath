@@ -4,11 +4,21 @@ include("conexion.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-        die("Debes iniciar sesión para enviar un reporte.");
+    // Verificar si el reporte debe ser anónimo
+    $es_anonimo = isset($_POST['anonimo']) && $_POST['anonimo'] == '1';
+    
+    if ($es_anonimo) {
+        // Usar usuario anónimo (ID 0)
+        $id_usuario = 0;
+    } else {
+        // Verificar que haya sesión activa para reportes no anónimos
+        if (!isset($_SESSION['user_id'])) {
+            echo "Error: Debes iniciar sesión para enviar reportes no anónimos";
+            exit;
+        }
+        $id_usuario = $_SESSION['user_id'];
     }
 
-    $id_usuario  = $_SESSION['user_id'];   // <-- Usuario real
     $ubicacion   = $_POST['ubicacion'];
     $fecha_hora  = !empty($_POST['fecha_hora']) ? $_POST['fecha_hora'] : date("Y-m-d H:i:s"); 
     $tipo        = $_POST['tipo'];
@@ -37,14 +47,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_FILES["evidencia"]["name"])) {
         $targetDir = "../uploads/";
         if (!is_dir($targetDir)) mkdir($targetDir, 0777, true);
-        $fileName = time() . "_" . basename($_FILES["evidencia"]["name"]);
+        
+        // Para reportes anónimos, usar un nombre más genérico para proteger la privacidad
+        if ($es_anonimo) {
+            $fileName = "anon_" . uniqid() . "_" . pathinfo($_FILES["evidencia"]["name"], PATHINFO_EXTENSION);
+        } else {
+            $fileName = time() . "_" . basename($_FILES["evidencia"]["name"]);
+        }
+        
         $targetFile = $targetDir . $fileName;
         if (move_uploaded_file($_FILES["evidencia"]["tmp_name"], $targetFile)) {
             $imagen = $fileName;
-            // Debug:
-            // echo "Archivo subido: $targetFile"; exit;
         } else {
-            echo "Error al subir el archivo"; exit;
+            echo "Error al subir el archivo";
+            exit;
         }
     }
 
@@ -55,7 +71,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("isssddssis", $id_usuario, $tipo, $descripcion, $imagen, $latitud, $longitud, $ubicacion, $fecha_hora, $nivel_peligro, $rango);
     
-
     if ($stmt->execute()) {
         echo "success";
     } else {

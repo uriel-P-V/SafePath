@@ -135,3 +135,39 @@ textarea {
     gap: 15px;
   }
 }
+
+.checkbox-container {
+  background: #f0f8ff;
+  padding: 15px;
+  border-radius: 10px;
+  border-left: 4px solid #007bff;
+  margin: 15px 0;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  cursor: pointer;
+  font-weight: normal;
+}
+
+.checkbox-label input[type="checkbox"] {
+  margin-right: 10px;
+  transform: scale(1.2);
+  margin-top: 2px;
+}
+
+.checkbox-info {
+  flex: 1;
+}
+
+.checkbox-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.checkbox-description {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.4;
+}

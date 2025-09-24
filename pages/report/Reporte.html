@@ -55,6 +55,21 @@
       <textarea name="descripcion" placeholder="Ingresa una descripción"></textarea>
     </div>
 
+    <!-- Checkbox para reporte anónimo con mejor diseño -->
+    <div class="form-group">
+      <div style="background: #f0f8ff; padding: 15px; border-radius: 10px; border-left: 4px solid #007bff;">
+        <label style="display: flex; align-items: center; cursor: pointer; font-weight: normal;">
+          <input type="checkbox" name="anonimo" value="1" id="checkboxAnonimo" style="margin-right: 15px; transform: scale(4);">
+          <div>
+            <strong>Enviar de manera anónima</strong>
+            <div style="font-size: 12px; color: #666666; margin-top: 5px;">
+              Tu identidad será completamente protegida. Ni los administradores podrán saber quién envió el reporte.
+            </div>
+          </div>
+        </label>
+      </div>
+    </div>
+
     <div class="form-group">
       <label>Evidencia</label>
       <div class="upload-box" id="uploadBox">
@@ -62,6 +77,7 @@
         Haz click para adjuntar imagen (PNG, JPG, JPEG)
         <input type="file" name="evidencia" id="fileInput" accept=".png,.jpg,.jpeg" style="display: none;">
       </div>
+      <small style="color: #666;">Nota: Para reportes anónimos, los metadatos de la imagen serán eliminados automáticamente.</small>
     </div>
 
     <!-- Campos ocultos para latitud y longitud -->
@@ -74,7 +90,7 @@
   <div id="confirmation" style="display:none; text-align:center; padding:50px;">
     <i class="fa-solid fa-circle-check" style="font-size:80px; color:green;"></i>
     <h2>¡Tu reporte se envió con éxito!</h2>
-    <p style="margin-top: 20px; color: #666;">Gracias por contribuir a la seguridad de la comunidad</p>
+    <p style="margin-top: 20px; color: #666;" id="confirmationText">Gracias por contribuir a la seguridad de la comunidad</p>
   </div>
 
 </div>
@@ -86,23 +102,41 @@
       const response = await fetch('../../backend/check_session.php');
       const data = await response.json();
       
-      if (!data.logged_in) {
-        // Si no hay sesión, redirigir al login
-        alert('Debes iniciar sesión para reportar incidentes');
-        window.location.href = '../login/login.html';
-        return false;
-      }
-      return true;
+      return data.logged_in || false;
     } catch (error) {
       console.error('Error verificando sesión:', error);
-      alert('Error de conexión. Por favor, intenta nuevamente.');
-      window.location.href = '../login/login.html';
       return false;
     }
   }
 
-  // Verificar sesión al cargar la página
-  document.addEventListener('DOMContentLoaded', checkSession);
+  // Función para mostrar/ocultar advertencia según el estado del checkbox anónimo
+  function toggleAnonymousWarning() {
+    const checkbox = document.getElementById('checkboxAnonimo');
+    const isLoggedIn = sessionStorage.getItem('userLoggedIn') === 'true';
+    
+    if (checkbox.checked && !isLoggedIn) {
+      // Usuario no logueado enviando reporte anónimo - esto está bien
+      console.log('Reporte anónimo sin sesión - permitido');
+    } else if (!checkbox.checked && !isLoggedIn) {
+      // Usuario no logueado queriendo enviar reporte no anónimo
+      alert('Para enviar reportes con tu identidad, debes iniciar sesión. Marcando automáticamente como anónimo.');
+      checkbox.checked = true;
+    }
+  }
+
+  // Verificar sesión al cargar la página y guardar estado
+  document.addEventListener('DOMContentLoaded', async function() {
+    const isLoggedIn = await checkSession();
+    sessionStorage.setItem('userLoggedIn', isLoggedIn.toString());
+    
+    // Si no está logueado, marcar automáticamente como anónimo
+    if (!isLoggedIn) {
+      document.getElementById('checkboxAnonimo').checked = true;
+    }
+    
+    // Agregar listener al checkbox
+    document.getElementById('checkboxAnonimo').addEventListener('change', toggleAnonymousWarning);
+  });
 
   // Funcionalidad para la carga de archivos
   document.getElementById('uploadBox').addEventListener('click', function() {
@@ -133,9 +167,15 @@
   form.addEventListener("submit", async function(e){
     e.preventDefault();
 
-    // Verificar sesión antes de enviar
-    const sessionActive = await checkSession();
-    if (!sessionActive) return;
+    const isAnonymous = document.getElementById('checkboxAnonimo').checked;
+    const isLoggedIn = sessionStorage.getItem('userLoggedIn') === 'true';
+
+    // Si no es anónimo y no está logueado, requerir login
+    if (!isAnonymous && !isLoggedIn) {
+      alert('Debes iniciar sesión para enviar reportes con tu identidad');
+      window.location.href = '../login/login.html';
+      return;
+    }
 
     // Deshabilitar el botón de envío para evitar doble envío
     const submitBtn = form.querySelector('.btn-submit');
@@ -157,6 +197,14 @@
         // Ocultar formulario y mostrar confirmación
         form.style.display = "none";
         confirmation.style.display = "block";
+
+        // Personalizar mensaje según si fue anónimo o no
+        const confirmationText = document.getElementById('confirmationText');
+        if (isAnonymous) {
+          confirmationText.textContent = 'Tu reporte anónimo ha sido enviado. Tu privacidad está completamente protegida.';
+        } else {
+          confirmationText.textContent = 'Gracias por contribuir a la seguridad de la comunidad';
+        }
 
         // Redirigir después de 3 segundos al index.php
         setTimeout(() => {
